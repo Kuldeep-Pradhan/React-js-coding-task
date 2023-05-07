@@ -3,12 +3,33 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import "./Form.css";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+
 
 const schema = yup
     .object({
         name: yup.string().required(),
         age: yup.number().positive().integer().required(),
         sex: yup.string().required(),
+        mobile: yup
+            .string()
+            .matches(/^[6-9]\d{9}$/, "Please enter a valid Indian mobile number"),
+        emergencyNumber: yup
+            .string()
+            .matches(/^[6-9]\d{9}$/, "Please enter a valid Indian mobile number"),
+        govIdType: yup.string().required(),
+        // govIdNumber: yup.string().when("govIdType", {
+        //     is: "Aadhar",
+        //     then: yup
+        //         .string()
+        //         .matches(/^[a-zA-Z0-9]{10}$/, "Invalid Aadhar Number")
+        //         .required(),
+        //     otherwise: yup
+        //         .string()
+        //         .matches(/^[a-zA-Z0-9]{12}$/, "Invalid PAN Number")
+        //         .required(),
+        // }),
     })
     .required();
 
@@ -20,8 +41,14 @@ const Form = () => {
     } = useForm({
         resolver: yupResolver(schema),
     });
+    const navigate = useNavigate();
     const handleFormSubmit = (data) => {
-        console.log(data, "formData");
+        axios
+            .post("https://reactjs-coding-task-be-task.onrender.com/adduser", data)
+            .then((response) => console.log("response::::", response))
+            .catch((error) => console.error(error));
+
+        navigate("/table");
     };
     return (
         <>
@@ -62,24 +89,38 @@ const Form = () => {
                     </div>
                     <div>
                         <label htmlFor="mobile">Mobile</label>
-                        <input
-                            type="number"
-                            placeholder="Enter Mobile"
-                            id="mobile"
-                            {...register("number")}
-                        />
-                        <label htmlFor="govt-id">Govt issued ID</label>
-                        <section>
-                            <select name="id-type" id="govt-id" {...register("id-type")}>
-                                <option value="">ID type</option>
-                                <option value="aadhar">Aadhar</option>
-                                <option value="pan">PAN</option>
-                            </select>
+                        <span>
                             <input
-                                type="text"
-                                placeholder="Enter Govt ID"
-                                {...register("gov-id")}
+                                type="number"
+                                placeholder="Enter Mobile"
+                                id="mobile"
+                                {...register("number")}
                             />
+                            <p>{errors.number?.message}</p>
+                        </span>
+                        <label htmlFor="govIdType">Govt issued ID</label>
+                        <section>
+                            <span>
+                                <select
+                                    name="id-type"
+                                    id="govIdType"
+                                    {...register("govIdType")}
+                                >
+                                    <option value="">ID type</option>
+                                    <option value="Aadhar">Aadhar</option>
+                                    <option value="PAN">PAN</option>
+                                </select>
+                                <p>{errors.govIdType?.message}</p>
+                            </span>
+                            <span>
+                                <input
+                                    type="text"
+                                    placeholder="Enter Govt ID"
+                                    name="govIdNumber"
+                                    {...register("govIdNumber")}
+                                />
+                                <p>{errors.govIdNumber?.message}</p>
+                            </span>
                         </section>
                     </div>
                     <h3> Contact details </h3>
@@ -104,11 +145,14 @@ const Form = () => {
                             {...register("guardianEmail")}
                         />
                         <label htmlFor="emergencyContact"> Emergency Contact Number</label>
-                        <input
-                            type="number"
-                            placeholder="Enter Emergency no."
-                            {...register("emergencyNumber")}
-                        />
+                        <span>
+                            <input
+                                type="number"
+                                placeholder="Enter Emergency no."
+                                {...register("emergencyNumber")}
+                            />
+                            <p>{errors.emergencyNumber?.message}</p>
+                        </span>
                     </div>
                     <h3>Address Details</h3>
                     <div>
@@ -174,7 +218,7 @@ const Form = () => {
                         <select
                             name="maritialStatus"
                             id="maritialStatus"
-                            {...register("maritial-status")}
+                            {...register("maritialStatus")}
                         >
                             <option value="">Enter maritial status</option>
                             <option value="married">Married</option>
