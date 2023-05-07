@@ -252,7 +252,7 @@ const Form = () => {
                     </div>
                     <div className="buttons">
                         <button type="submit">Submit</button>
-                        <button type="cancel">Cancel</button>
+                        <button type="reset">Cancel</button>
                     </div>
                 </form>
             </div>
