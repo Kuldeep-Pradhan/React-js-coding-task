@@ -1,0 +1,79 @@
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.6rem;
+    padding: 5px;
+}
+
+h3{
+    margin: 0px;
+}
+
+.form div {
+    display: flex;
+    gap: 2rem;
+}
+
+.form div input {
+    width: 400px;
+    height: 20px;
+    border-radius: 5px;
+    outline: none;
+    padding-left: 5px;
+    border: 1px solid black;
+}
+
+.form div select{
+    width: 200px;
+    height: 25px;
+    border-radius: 4px;
+}
+
+#DOB {
+    width: 200px;
+}
+
+#govt-id , #guardian {
+    margin-right: 10px;
+}
+
+#guardian {
+    width: 100px;
+    margin-bottom: 5px;
+}
+.buttons{
+    height: 40px;
+    justify-content: end;
+    /* padding: 10px; */
+    margin: 0px;
+}
+
+button{
+    border-radius: 10px;
+    text-transform: uppercase;
+    border: none;
+    box-sizing: border-box;
+}
+
+button[type="submit"] {
+    background-color: rgb(146, 236, 11) ;
+    border: 1px solid gray;
+    padding: 10px;
+}
+
+button[type = "cancel"] {
+    color: red;
+    border: 1px solid red;
+    padding: 10px;
+}
+
+span{
+    display: flex;
+    flex-direction: column;
+}
+
+span p { 
+    color: red;
+    font-size: 10px;
+    margin: 0px;
+}
